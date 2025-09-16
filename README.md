@@ -2,6 +2,16 @@
 
 A modern, customizable dashboard system with dynamic grid layout and real-time widget management.
 
+## Demo
+
+![Dashboard Demo](demo.gif)
+
+*Watch the dashboard in action - dynamic grid resizing, widget management, and real-time configuration*
+
+![Dashboard Demo 2](demo2.gif)
+
+*Additional demo showcasing custom widgets, configuration panels, and advanced features*
+
 ## Features
 
 - **Dynamic Grid System** - Adjustable columns, rows, gap, and styling with no widget duplication on resize
