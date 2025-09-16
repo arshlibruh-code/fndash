@@ -1,4 +1,4 @@
-# fndash - Flexible Dashboard System
+# fndash
 
 A modern, customizable dashboard system with dynamic grid layout and real-time widget management.
 
