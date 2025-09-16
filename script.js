@@ -2,6 +2,7 @@ import { WidgetCore } from './widgets/WidgetCore.js';
 import { MapWidget } from './widgets/map-widget.js';
 import { ChartWidget } from './widgets/chart-widget.js';
 import { SunburstWidget } from './widgets/sunburst-widget.js';
+import { CustomWidget } from './widgets/custom-widget.js';
 import { KeyboardManager } from './keyboard.js';
 import { MapSyncManager } from './widgets/map-sync.js';
 import { ConfigPanel } from './config-panel.js';
@@ -16,24 +17,29 @@ class GridTest {
         this.widgetTypes = {
             map: MapWidget,
             chart: ChartWidget,
-            sunburst: SunburstWidget
+            sunburst: SunburstWidget,
+            custom: CustomWidget
         };
         this.widgets = new Map(); // Track all widgets
         this.selectedWidget = null;
-        this.widgetCounters = { map: 0, chart: 0, sunburst: 0 }; // Track widget instances
+        this.widgetCounters = { map: 0, chart: 0, sunburst: 0, custom: 0 }; // Track widget instances
         
         this.config = {
             columns: { min: 1, max: 12, default: 12 },
             rows: { min: 1, max: 12, default: 8 },
             gap: { min: 0, max: 100, default: 10 },
-            radius: { min: 0, max: 1000, default: 4 },
-            padding: { min: 0, max: 1000, default: 10 }
+            radius: { min: 0, max: 800, default: 4 },
+            padding: { min: 0, max: 500, default: 10 }
         };
         
         // Initialize values
         Object.keys(this.config).forEach(key => {
             this[key] = this.config[key].default;
         });
+        
+        // Ensure values don't exceed new limits
+        this.padding = Math.min(this.padding, this.config.padding.max);
+        this.radius = Math.min(this.radius, this.config.radius.max);
         
         // Grid visibility state
         this.gridVisible = true;
@@ -226,20 +232,20 @@ class GridTest {
     }
     
     createGridItems() {
-        // Store current widget position before recreating
-        const existingMap = this.widgetsOverlay.querySelector('#map');
-        let currentStartCell = '3F';
-        let currentEndCell = '7H';
-        
-        if (existingMap) {
-            currentStartCell = existingMap.dataset.startCell || '3F';
-            currentEndCell = existingMap.dataset.endCell || '7H';
-        }
+        // Store all existing widgets before recreating grid
+        const existingWidgets = Array.from(this.widgetsOverlay.children).map(widget => ({
+            id: widget.id,
+            type: widget.dataset.widgetType || widget.id.split('-')[0],
+            startCell: widget.dataset.startCell,
+            endCell: widget.dataset.endCell,
+            element: widget
+        }));
         
         // Remove all grid items
         const gridItems = this.grid.querySelectorAll('.grid-item');
         gridItems.forEach(item => item.remove());
         
+        // Create new grid items
         for (let row = 1; row <= this.rows; row++) {
             for (let col = 1; col <= this.columns; col++) {
             const item = document.createElement('div');
@@ -251,8 +257,18 @@ class GridTest {
             }
         }
         
-        // Add the map widget to overlay with preserved position
-        this.widgetManager.createWidget('map', { startCell: currentStartCell, endCell: currentEndCell });
+        // Re-add existing widgets to preserve them (don't recreate)
+        existingWidgets.forEach(widgetData => {
+            if (widgetData.element && widgetData.startCell && widgetData.endCell) {
+                // Just reposition the existing widget, don't recreate it
+                this.positionWidget(widgetData.element, widgetData.startCell, widgetData.endCell);
+            }
+        });
+        
+        // If no widgets exist, create a default map widget
+        if (existingWidgets.length === 0) {
+            this.widgetManager.createWidget('map', { startCell: '3F', endCell: '7H' });
+        }
     }
     
     createWidget(type, config, uniqueId = null) {

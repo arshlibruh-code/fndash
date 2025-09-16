@@ -64,7 +64,8 @@ export class MapWidget extends WidgetCore {
                 center: this.config.center,
                 zoom: this.config.zoom,
                 pitch: this.config.pitch,
-                bearing: this.config.bearing
+                bearing: this.config.bearing,
+                attributionControl: false
             });
             
             // Store map instance
@@ -344,11 +345,20 @@ export class MapWidget extends WidgetCore {
         
         return `
             <div class="config-group">
-                <div class="config-group-title">Widget Information</div>
-                <div style="background: rgba(255,255,255,0.05); padding: 8px; border-radius: 4px; margin-bottom: 12px; font-family: monospace; font-size: 12px;">
-                    <strong style="color: #22c55e;">Widget ID:</strong> ${this.element?.id || 'Unknown'}<br>
-                    <strong style="color: #22c55e;">Type:</strong> ${this.type}<br>
-                    <strong style="color: #22c55e;">Position:</strong> ${this.element?.dataset.startCell || 'Unknown'} → ${this.element?.dataset.endCell || 'Unknown'}
+                <div class="config-group-title">Widget Info</div>
+                <div class="widget-info">
+                    <div class="info-item">
+                        <span class="info-label">Widget ID:</span>
+                        <span class="info-value">${this.element?.id || 'Unknown'}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Type:</span>
+                        <span class="info-value">${this.type}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Position:</span>
+                        <span class="info-value">${this.element?.dataset.startCell || 'Unknown'} → ${this.element?.dataset.endCell || 'Unknown'}</span>
+                    </div>
                 </div>
             </div>
             

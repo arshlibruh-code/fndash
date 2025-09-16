@@ -191,7 +191,7 @@
 }
 
 .config-panel-header {
-    padding: 20px;
+    padding: 12px 20px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     display: flex;
     justify-content: space-between;
@@ -199,8 +199,8 @@
 }
 
 .config-panel-title {
-    font-size: 18px;
-    font-weight: bold;
+    font-size: 14px;
+    font-weight: 600;
     color: #fff;
 }
 
@@ -295,6 +295,162 @@
 .sunburst-widget .echarts-canvas {
     width: 100% !important;
     height: 100% !important;
+}
+
+/* Custom Widget Styles */
+.custom-widget {
+    background: #1a1a1a;
+    color: #fff;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+
+.custom-widget-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.custom-widget-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+/* Widget Information Styles */
+.widget-info {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 16px;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.info-item:last-child {
+    margin-bottom: 0;
+}
+
+.info-label {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+}
+
+.info-value {
+    font-size: 12px;
+    color: #fff;
+    font-family: 'Courier New', monospace;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+
+/* Custom Widget Config Panel Styles */
+.config-group textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    resize: vertical;
+}
+
+.config-group textarea:focus {
+    outline: none;
+    border-color: #22c55e;
+    box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.3);
+}
+
+/* JSON Config textarea - fill available height */
+#customCode {
+    min-height: 400px;
+    height: 60vh;
+    max-height: 80vh;
+    resize: vertical;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.config-group label {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
+}
+
+.config-group input[type="color"] {
+    width: 100%;
+    height: 32px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    background: none;
+    cursor: pointer;
+}
+
+.config-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 12px;
+}
+
+.config-group select:focus {
+    outline: none;
+    border-color: #22c55e;
+    box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.3);
+}
+
+.config-group input[type="checkbox"] {
+    margin-right: 8px;
+    accent-color: #22c55e;
+}
+
+.config-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.config-actions .config-btn {
+    flex: 1;
+    padding: 8px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.config-actions .config-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: #22c55e;
+}
+
+.config-actions .config-btn:active {
+    background: rgba(34, 197, 94, 0.2);
 }
 
 /* Mode-specific overrides */

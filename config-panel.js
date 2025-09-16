@@ -32,7 +32,7 @@ class ConfigPanel {
         
         panel.innerHTML = `
             <div class="config-panel-header">
-                <div class="config-panel-title">Widget Configuration</div>
+                <div class="config-panel-title">WIDGET CONFIG</div>
                 <button class="config-panel-close" id="configPanelClose">
                     <i data-lucide="x"></i>
                 </button>

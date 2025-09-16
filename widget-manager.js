@@ -586,6 +586,16 @@ class WidgetManager {
             config.dataSource = widgetInstance.dataSource;
             config.animationsEnabled = widgetInstance.animationsEnabled;
             // Add other sunburst-specific config as needed
+        } else if (widgetInstance.type === 'custom') {
+            config.customConfig = widgetInstance.customConfig;
+            config.title = widgetInstance.customConfig.title;
+            config.description = widgetInstance.customConfig.description;
+            config.html = widgetInstance.customConfig.html;
+            config.css = widgetInstance.customConfig.css;
+            config.js = widgetInstance.customConfig.js;
+            config.settings = widgetInstance.customConfig.settings;
+            config.layout = widgetInstance.customConfig.layout;
+            config.interactions = widgetInstance.customConfig.interactions;
         }
         
         // Add other widget types' specific config here
