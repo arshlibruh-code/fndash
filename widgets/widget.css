@@ -1,0 +1,323 @@
+/* Widget Styles */
+.widget {
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid transparent;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    position: absolute;
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+/* Show border when selected (simplified) */
+.widget.selected {
+    border-color: #22c55e;
+    box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.3);
+}
+
+.resize-handle {
+    position: absolute;
+    background: #22c55e;
+    border: 1px solid #fff;
+    opacity: 0;
+}
+
+.widget.selected .resize-handle {
+    opacity: 1;
+}
+
+.resize-handle-right {
+    top: 50%;
+    right: -4px;
+    width: 4px;
+    height: 20px;
+    transform: translateY(-50%);
+    cursor: ew-resize;
+}
+
+.resize-handle-bottom {
+    bottom: -4px;
+    left: 50%;
+    width: 20px;
+    height: 4px;
+    transform: translateX(-50%);
+    cursor: ns-resize;
+}
+
+.resize-handle-corner {
+    bottom: -4px;
+    right: -4px;
+    width: 8px;
+    height: 8px;
+    cursor: nw-resize;
+}
+
+/* Widget Hover Header Container */
+.widget-hover-header {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    display: flex;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 30;
+}
+
+.widget:hover .widget-hover-header {
+    opacity: 1;
+}
+
+/* Control Button Base Styles */
+.widget-control-btn {
+    width: 16px;
+    height: 16px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+.widget-control-btn:hover {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+.widget-control-btn i {
+    color: #fff;
+    width: 12px;
+    height: 12px;
+    stroke-width: 1.5;
+}
+
+/* Specific Button Styles */
+.move-btn {
+    cursor: grab;
+}
+
+.move-btn:active {
+    cursor: grabbing;
+}
+
+.config-btn {
+    cursor: pointer;
+}
+
+.duplicate-btn {
+    cursor: pointer;
+}
+
+.delete-btn {
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background: rgba(220, 38, 38, 0.8);
+}
+
+.preview {
+    position: absolute;
+    background: rgba(34, 197, 94, 0.2);
+    border: 2px dashed rgba(34, 197, 94, 0.8);
+    border-radius: 4px;
+    pointer-events: none;
+    z-index: 15;
+    opacity: 0;
+}
+
+.preview.show {
+    opacity: 1;
+}
+
+.map-widget {
+    background: transparent;
+    color: #fff;
+}
+
+/* Mapbox container should fill the entire widget */
+.map-widget #mapbox-container {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: inherit;
+}
+
+/* Ensure Mapbox canvas fills the container */
+.map-widget .mapboxgl-canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.widget-debug {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 2px 4px;
+    border-radius: 2px;
+    font-size: 8px;
+    font-family: monospace;
+    line-height: 1.2;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    pointer-events: none;
+    z-index: 20;
+}
+
+/* Configuration Panel */
+.config-panel {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    width: 400px;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+    z-index: 1000;
+    transition: right 0.3s ease;
+    overflow-y: auto;
+}
+
+.config-panel.open {
+    right: 0;
+}
+
+.config-panel-header {
+    padding: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.config-panel-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.config-panel-close {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+.config-panel-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.config-panel-content {
+    padding: 20px;
+}
+
+.config-group {
+    margin-bottom: 20px;
+}
+
+.config-group-title {
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.config-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.config-input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.config-select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.config-label {
+    display: block;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 4px;
+}
+
+.config-label input[type="checkbox"] {
+    margin-right: 8px;
+    accent-color: #22c55e;
+}
+
+.config-label small {
+    display: block;
+    margin-top: 4px;
+    font-style: italic;
+}
+
+/* Sunburst Widget Styles */
+.sunburst-widget {
+    background: rgba(46, 39, 51, 0.9);
+    color: #fff;
+}
+
+/* Sunburst container should fill the entire widget */
+.sunburst-widget #sunburst-container {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: inherit;
+}
+
+/* Ensure ECharts canvas fills the container */
+.sunburst-widget .echarts-canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Mode-specific overrides */
+.widget.view-mode .resize-handle {
+    opacity: 0 !important;
+    pointer-events: none;
+}
+
+.widget.view-mode .widget-hover-header {
+    opacity: 0 !important;
+    pointer-events: none;
+}
+
+.widget.view-mode:hover .widget-hover-header {
+    opacity: 0 !important;
+}
+
+.widget.view-mode.selected .resize-handle {
+    opacity: 0 !important;
+}
+
+/* Hide borders in view mode */
+.widget.view-mode {
+    border-color: transparent !important;
+    box-shadow: none !important;
+}

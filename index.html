@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grid Test</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="widgets/widget.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://echarts.apache.org/en/js/vendors/echarts/dist/echarts.min.js"></script>
+    <script src="config.js"></script>
+</head>
+<body>
+    <div class="controls">
+        <div class="control-group">
+            <i data-lucide="columns" class="icon"></i>
+            <input type="number" id="columns" value="12" min="1" max="12" placeholder="Columns">
+        </div>
+        <div class="control-group">
+            <i data-lucide="rows" class="icon"></i>
+            <input type="number" id="rows" value="8" min="1" max="12" placeholder="Rows">
+        </div>
+        <div class="control-group">
+            <i data-lucide="table-rows-split" class="icon"></i>
+            <input type="number" id="gap" value="10" min="0" max="100" placeholder="Gap">
+        </div>
+        <div class="control-group">
+            <i data-lucide="square-round-corner" class="icon"></i>
+            <input type="number" id="radius" value="4" min="0" placeholder="Radius">
+        </div>
+        <div class="control-group">
+            <i data-lucide="box" class="icon"></i>
+            <input type="number" id="padding" value="10" min="0" max="1000" placeholder="Padding">
+        </div>
+        
+        <div class="control-group">
+            <input type="color" id="colorPicker" value="#1a1a1a" style="width: 60px; height: 26px; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 4px; cursor: pointer; background: none; padding: 0; -webkit-appearance: none; -moz-appearance: none; appearance: none;">
+        </div>
+
+        <!-- Dynamic widget controls will be injected here -->
+        <div id="widgetControls"></div>
+        
+        <!-- Add Widget Controls -->
+        <div class="control-group" id="addWidgetControls">
+            <button id="addWidgetBtn" class="add-widget-btn">Add Widget</button>
+        </div>
+    </div>
+    
+    <div class="grid-container" id="grid"></div>
+    <div class="widgets-overlay" id="widgetsOverlay"></div>
+    
+    <!-- Widget Selection Menu Overlay -->
+    <div id="widgetMenuOverlay" class="widget-menu-overlay">
+        <div class="widget-menu">
+            <div class="widget-menu-header">
+                <h3>Add Widget</h3>
+                <button id="closeWidgetMenu" class="close-btn">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="widget-menu-content">
+                <div class="widget-option" data-widget-type="map">
+                    <div class="widget-icon">
+                        <i data-lucide="map"></i>
+                    </div>
+                    <div class="widget-info">
+                        <h4>Map Widget</h4>
+                        <p>Interactive maps with Mapbox GL JS</p>
+                    </div>
+                </div>
+                <div class="widget-option" data-widget-type="chart">
+                    <div class="widget-icon">
+                        <i data-lucide="bar-chart-3"></i>
+                    </div>
+                    <div class="widget-info">
+                        <h4>Chart Widget</h4>
+                        <p>Data visualization with ECharts</p>
+                    </div>
+                </div>
+                <div class="widget-option" data-widget-type="sunburst">
+                    <div class="widget-icon">
+                        <i data-lucide="pie-chart"></i>
+                    </div>
+                    <div class="widget-info">
+                        <h4>Sunburst Widget</h4>
+                        <p>Hierarchical data visualization</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="script.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
