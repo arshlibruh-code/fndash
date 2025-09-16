@@ -16,13 +16,13 @@
 
 /* Show border when selected (simplified) */
 .widget.selected {
-    border-color: #22c55e;
-    box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.3);
+    border-color: #089BDF;
+    box-shadow: 0 0 0 2px rgba(8, 155, 223, 0.3);
 }
 
 .resize-handle {
     position: absolute;
-    background: #22c55e;
+    background: #089BDF;
     border: 1px solid #fff;
     opacity: 0;
 }
@@ -77,7 +77,7 @@
 .widget-control-btn {
     width: 16px;
     height: 16px;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(34, 59, 104, 0.7);
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 2px;
     cursor: pointer;
@@ -88,7 +88,7 @@
 }
 
 .widget-control-btn:hover {
-    background: rgba(0, 0, 0, 0.9);
+    background: rgba(34, 59, 104, 0.9);
 }
 
 .widget-control-btn i {
@@ -125,8 +125,8 @@
 
 .preview {
     position: absolute;
-    background: rgba(34, 197, 94, 0.2);
-    border: 2px dashed rgba(34, 197, 94, 0.8);
+    background: rgba(0, 174, 255, 0.1);
+    border: 2px dashed rgba(8, 155, 223, 1);
     border-radius: 4px;
     pointer-events: none;
     z-index: 15;
@@ -159,7 +159,7 @@
     position: absolute;
     top: 4px;
     right: 4px;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(34, 59, 104, 0.8);
     color: #fff;
     padding: 2px 4px;
     border-radius: 2px;
@@ -178,7 +178,7 @@
     right: -400px;
     width: 400px;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.95);
+    background: rgba(34, 59, 104, 0.95);
     backdrop-filter: blur(10px);
     border-left: 1px solid rgba(255, 255, 255, 0.2);
     z-index: 1000;
@@ -269,7 +269,7 @@
 
 .config-label input[type="checkbox"] {
     margin-right: 8px;
-    accent-color: #22c55e;
+    accent-color: #089BDF;
 }
 
 .config-label small {
@@ -358,6 +358,174 @@
     border-radius: 3px;
 }
 
+/* Dashboard Menu Overlay */
+.dashboard-menu-overlay {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.dashboard-menu-overlay.show {
+    display: block;
+    opacity: 1;
+}
+
+.dashboard-menu {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 12px;
+    min-width: 300px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transform: translateY(10px);
+    transition: transform 0.2s ease;
+}
+
+.dashboard-menu-overlay.show .dashboard-menu {
+    transform: translateY(0);
+}
+
+.dashboard-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dashboard-menu-header h3 {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.dashboard-menu-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.dashboard-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+}
+
+.dashboard-name-text {
+    flex: 1;
+}
+
+.dashboard-delete-btn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+}
+
+.dashboard-option:hover .dashboard-delete-btn {
+    opacity: 1;
+}
+
+.dashboard-delete-btn:hover {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+}
+
+.dashboard-option:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.dashboard-option.active {
+    background: rgba(8, 155, 223, 0.2);
+    border-color: #089BDF;
+}
+
+.new-dashboard-option {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 4px;
+}
+
+.new-dashboard-option .dashboard-name-text {
+    color: #089BDF;
+    font-weight: 600;
+}
+
+/* RichText Widget Styles */
+.richtext-widget {
+    background: transparent;
+    color: #fff;
+    overflow: hidden;
+}
+
+/* Dev Widget Styles */
+.dev-widget {
+    background: rgba(8, 155, 223, 0.5); /* Blue with 50% opacity */
+    border: 2px solid #089BDF; /* Blue border */
+    color: #fff; /* White text for contrast */
+    overflow: hidden;
+}
+
+.dev-container {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding: 16px;
+}
+
+.richtext-container {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.richtext-container h1,
+.richtext-container h2,
+.richtext-container h3,
+.richtext-container h4,
+.richtext-container h5,
+.richtext-container h6 {
+    margin: 0 0 16px 0;
+    line-height: 1.2;
+}
+
+.richtext-container p {
+    margin: 0 0 12px 0;
+    line-height: 1.5;
+}
+
+.richtext-container ul,
+.richtext-container ol {
+    margin: 0 0 12px 0;
+    padding-left: 20px;
+}
+
+.richtext-container li {
+    margin-bottom: 4px;
+}
+
 /* Custom Widget Config Panel Styles */
 .config-group textarea {
     width: 100%;
@@ -374,8 +542,8 @@
 
 .config-group textarea:focus {
     outline: none;
-    border-color: #22c55e;
-    box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.3);
+    border-color: #089BDF;
+    box-shadow: 0 0 0 2px rgba(8, 155, 223, 0.3);
 }
 
 /* JSON Config textarea - fill available height */
@@ -417,13 +585,13 @@
 
 .config-group select:focus {
     outline: none;
-    border-color: #22c55e;
-    box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.3);
+    border-color: #089BDF;
+    box-shadow: 0 0 0 2px rgba(8, 155, 223, 0.3);
 }
 
 .config-group input[type="checkbox"] {
     margin-right: 8px;
-    accent-color: #22c55e;
+    accent-color: #089BDF;
 }
 
 .config-actions {
@@ -446,11 +614,11 @@
 
 .config-actions .config-btn:hover {
     background: rgba(255, 255, 255, 0.2);
-    border-color: #22c55e;
+    border-color: #089BDF;
 }
 
 .config-actions .config-btn:active {
-    background: rgba(34, 197, 94, 0.2);
+    background: rgba(8, 155, 223, 0.2);
 }
 
 /* Mode-specific overrides */

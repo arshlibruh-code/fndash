@@ -265,7 +265,7 @@ export class CustomWidget extends WidgetCore {
             font-size: 14px;
             font-weight: 500;
             z-index: 10000;
-            background: ${type === 'error' ? '#ef4444' : '#22c55e'};
+            background: ${type === 'error' ? '#ef4444' : '#089BDF'};
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             animation: slideIn 0.3s ease;
         `;

@@ -40,6 +40,14 @@ class WidgetManager {
         widgetElement.style.borderRadius = `${this.dashboard.radius}px`;
         widgetElement.dataset.mode = this.MODES.EDIT;
         
+        // Set position data if provided
+        if (config.startCell) {
+            widgetElement.dataset.startCell = config.startCell;
+        }
+        if (config.endCell) {
+            widgetElement.dataset.endCell = config.endCell;
+        }
+        
         // Add debug box using widget instance method
         widgetInstance.addDebugBox(widgetElement);
         
@@ -66,7 +74,7 @@ class WidgetManager {
         // Initialize Lucide icons for the new widget
         lucide.createIcons();
         
-        return uniqueId;
+        return widgetElement;
     }
     
     addNewWidget(type) {

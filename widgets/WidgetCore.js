@@ -30,12 +30,22 @@ export class WidgetCore {
         const startCell = element.dataset.startCell;
         const endCell = element.dataset.endCell;
         
-        // Calculate grid cells consumed
-        const startCoords = WidgetCore.parseCellId(startCell);
-        const endCoords = WidgetCore.parseCellId(endCell);
-        const cellsConsumed = (endCoords.row - startCoords.row + 1) * (endCoords.col - startCoords.col + 1);
+        // If cell IDs are not set yet, show placeholder
+        if (!startCell || !endCell) {
+            debugBox.textContent = 'Positioning...';
+            return;
+        }
         
-        debugBox.textContent = `${startCell}\n${endCell}\n${cellsConsumed} cells`;
+        try {
+            // Calculate grid cells consumed
+            const startCoords = WidgetCore.parseCellId(startCell);
+            const endCoords = WidgetCore.parseCellId(endCell);
+            const cellsConsumed = (endCoords.row - startCoords.row + 1) * (endCoords.col - startCoords.col + 1);
+            
+            debugBox.textContent = `${startCell}\n${endCell}\n${cellsConsumed} cells`;
+        } catch (error) {
+            debugBox.textContent = 'Invalid position';
+        }
     }
     
     static parseCellId(cellId) {

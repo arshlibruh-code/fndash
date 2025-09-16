@@ -34,6 +34,13 @@ class KeyboardManager {
                 return;
             }
             
+            // Shift+N to create new dashboard
+            if (e.shiftKey && e.key === 'N') {
+                e.preventDefault();
+                this.dashboard.dashboardManager.createNewDashboard();
+                return;
+            }
+            
             if (!this.dashboard.gridMode) return; // Guard clause for grid mode
             
             if (e.metaKey && e.shiftKey) {

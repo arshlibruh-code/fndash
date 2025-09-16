@@ -4,6 +4,10 @@ A modern, customizable dashboard system with dynamic grid layout and real-time w
 
 ## Demo
 
+![Main Dashboard Demo](main-demo.gif)
+
+*Complete dashboard workflow - grid management, widget creation, dashboard switching, and mode transitions*
+
 ![Dashboard Demo](demo.gif)
 
 *Watch the dashboard in action - dynamic grid resizing, widget management, and real-time configuration*
@@ -15,16 +19,20 @@ A modern, customizable dashboard system with dynamic grid layout and real-time w
 ## Features
 
 - **Dynamic Grid System** - Adjustable columns, rows, gap, and styling with no widget duplication on resize
+- **Dashboard Management** - Save, load, and switch between multiple dashboards with localStorage persistence
 - **Widget Management** - Drag, resize, configure, duplicate, and delete widgets with hover controls
 - **Map Synchronization** - Real-time map sync with multiple modes (All Leaders, Primary Leader)
 - **Sunburst Charts** - Interactive hierarchical data visualization with ECharts and multiple data sources
 - **Custom Widgets** - AI-generated widgets with JSON configuration and localStorage persistence
+- **RichText Widgets** - HTML content widgets with dynamic positioning for edit/view modes
+- **Dev Widgets** - Developer instruction widgets visible only in edit mode
 - **Background Customization** - Real-time background color picker in toolbar
 - **Widget Controls** - Hover-based controls for move, config, duplicate, delete
-- **Keyboard Shortcuts** - Efficient navigation and control
-- **Mode Switching** - Toggle between edit and view modes
+- **Keyboard Shortcuts** - Efficient navigation and control including dashboard creation
+- **Mode Switching** - Toggle between edit and view modes with smooth toolbar transitions
 - **Real-time Updates** - Live configuration panels and position tracking
 - **WebGL Context Management** - Prevents context leaks and crashes during grid operations
+- **Change Detection** - Visual indicators for unsaved changes with smart save states
 
 ## Quick Start
 
@@ -36,8 +44,9 @@ A modern, customizable dashboard system with dynamic grid layout and real-time w
 
 ## Keyboard Shortcuts
 
-- `Shift + G` - Toggle grid visibility
+- `Shift + G` - Toggle grid visibility and edit/view mode
 - `Shift + ?` (or `Shift + /`) - Toggle add widget menu
+- `Shift + N` - Create new dashboard
 - `Cmd + Shift + Arrow Keys` - Adjust grid dimensions
 - `ESC` - Deselect widgets or close menus
 
@@ -67,6 +76,8 @@ fndash/
 - **Map Widget** - Interactive maps with Mapbox GL JS (attribution removed)
 - **Sunburst Widget** - Hierarchical data visualization with ECharts and multiple data sources
 - **Chart Widget** - Data visualization with ECharts (placeholder with config panel)
+- **RichText Widget** - HTML content display with dynamic positioning for edit/view modes
+- **Dev Widget** - Developer instructions and keyboard shortcuts (edit mode only)
 - **Custom Widget** - AI-generated widgets with JSON configuration and localStorage persistence
 
 ## Custom Widgets
@@ -128,6 +139,15 @@ Two synchronization modes:
 - **All Leaders** - Any map can become the leader
 - **Primary Leader** - One designated map controls all others
 
+## Dashboard Management
+
+- **Save Dashboards** - Save current grid and widget configuration with custom names
+- **Load Dashboards** - Switch between saved dashboards with dropdown menu
+- **Create New Dashboards** - Use `Shift + N` or dropdown menu to create empty dashboards
+- **Change Detection** - Visual indicators show when dashboards have unsaved changes
+- **localStorage Persistence** - All dashboards saved locally in browser
+- **Default Dashboards** - Pre-configured "START PAGE" and "FINANCE" dashboards
+
 ## Customization
 
 - Adjustable grid dimensions (1-12 columns/rows)
@@ -138,6 +158,8 @@ Two synchronization modes:
 - Custom widget creation with AI assistance
 - Consistent widget information sections across all widget types
 - Compact configuration panel headers
+- Dynamic widget positioning based on edit/view mode
+- MacBook-style keycap styling for keyboard shortcuts
 
 ## AI Integration
 

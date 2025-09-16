@@ -8,7 +8,7 @@ body {
     height: 100vh;
     width: 100vw;
     overflow: hidden;
-    background: #000;
+    background: #1A1A1A;
     color: #fff;
     font-family: Arial, sans-serif;
 }
@@ -28,6 +28,113 @@ body {
     display: flex;
     gap: 16px;
     align-items: center;
+    height: 50px;
+    transition: all 0.3s ease;
+    transform-origin: center;
+}
+
+/* Edit mode - full toolbar */
+.controls.edit-mode {
+    width: auto;
+    min-width: 600px;
+}
+
+/* View mode - minimal toolbar */
+.controls.view-mode {
+    width: auto;
+    min-width: 200px;
+    gap: 8px;
+}
+
+.controls.view-mode .control-group:not(.dashboard-controls) {
+    display: none;
+}
+
+.controls.view-mode #addWidgetControls {
+    display: none;
+}
+
+.controls.view-mode .save-btn {
+    display: none;
+}
+
+/* Control Groups */
+.control-group {
+    transition: opacity 0.3s ease, width 0.3s ease;
+    opacity: 1;
+}
+
+#addWidgetControls {
+    transition: opacity 0.3s ease, width 0.3s ease;
+    opacity: 1;
+}
+
+.save-btn {
+    transition: opacity 0.3s ease, width 0.3s ease;
+    opacity: 1;
+}
+
+/* Dashboard Controls */
+.dashboard-controls {
+    margin-right: 8px;
+    gap: 8px;
+}
+
+.dashboard-name {
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+    min-width: 150px;
+    text-align: center;
+    background: transparent;
+}
+
+.dashboard-name:hover {
+    background: transparent;
+}
+
+.dashboard-name.editing {
+    background: transparent;
+    outline: 0.1px solid #089BDF;
+}
+
+.save-btn, .menu-btn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    transition: all 0.2s;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.save-btn i, .menu-btn i {
+    width: 16px;
+    height: 16px;
+    stroke-width: 1.5;
+}
+
+.save-btn.has-changes {
+    color: #089BDF;
+}
+
+.save-btn:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.save-btn.has-changes:hover {
+    color: #16a34a;
+}
+
+.menu-btn:hover {
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .control-group {
@@ -84,24 +191,62 @@ body {
 }
 
 .controls select option {
-    background: #000;
+    background: #1A1A1A;
     color: #fff;
 }
 
 .add-widget-btn {
     padding: 4px 12px;
-    border: 1px solid rgba(34, 197, 94, 0.6);
+    border: 1px solid rgba(8, 155, 223, 0.6);
     border-radius: 4px;
-    background: rgba(34, 197, 94, 0.2);
-    color: #22c55e;
+    background: rgba(8, 155, 223, 0.1);
+    color: #089BDF;
     font-size: 14px;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
 .add-widget-btn:hover {
-    background: rgba(34, 197, 94, 0.4);
-    border-color: rgba(34, 197, 94, 0.8);
+    background: rgba(8, 155, 223, 0.4);
+    border-color: rgba(8, 155, 223, 0.8);
+}
+
+/* MacBook-style Keycap Styling */
+kbd {
+    display: inline-block;
+    padding: 4px 8px;
+    border: 1px solid linear-gradient(145deg, #424242, #979797);
+    border-radius: 6px;
+    background: linear-gradient(145deg, #3c3c3c, #1a1a1a);
+    color: #ffffff;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
+    font-size: 0.85em;
+    font-weight: 500;
+    line-height: 1;
+    text-align: center;
+    box-shadow: 
+        0 1px 0 0 linear-gradient(145deg, #3c3c3c, #1a1a1a),
+        0 2px 4px rgba(107, 114, 128, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    transition: all 0.1s ease;
+    min-width: 20px;
+    user-select: none;
+}
+
+kbd:hover {
+    transform: translateY(-1px);
+    box-shadow: 
+        0 2px 0 0 #9ca3af,
+        0 4px 8px rgba(107, 114, 128, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+kbd:active {
+    transform: translateY(1px);
+    box-shadow: 
+        0 0 0 0 #9ca3af,
+        0 1px 2px rgba(107, 114, 128, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
 /* Widget Menu Overlay */

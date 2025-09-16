@@ -3,10 +3,437 @@ import { MapWidget } from './widgets/map-widget.js';
 import { ChartWidget } from './widgets/chart-widget.js';
 import { SunburstWidget } from './widgets/sunburst-widget.js';
 import { CustomWidget } from './widgets/custom-widget.js';
+import { RichTextWidget } from './widgets/richtext-widget.js';
+import { DevWidget } from './widgets/dev-widget.js';
 import { KeyboardManager } from './keyboard.js';
 import { MapSyncManager } from './widgets/map-sync.js';
 import { ConfigPanel } from './config-panel.js';
 import { WidgetManager } from './widget-manager.js';
+
+class DashboardManager {
+    constructor(gridTest) {
+        this.gridTest = gridTest;
+        this.dashboards = JSON.parse(localStorage.getItem('savedDashboards') || '{}');
+        this.currentDashboard = localStorage.getItem('currentDashboard') || 'START PAGE';
+        this.hasUnsavedChanges = false;
+        this.initializeDefaultDashboards();
+        this.setupDashboardName();
+        this.setupDashboardControls();
+        this.setupDashboardMenu();
+        this.setupChangeDetection();
+        
+        // Load the current dashboard after initialization
+        this.loadDashboard(this.currentDashboard);
+    }
+    
+    initializeDefaultDashboards() {
+        // Add Finance dashboard if it doesn't exist
+        if (!this.dashboards['FINANCE']) {
+            this.dashboards['FINANCE'] = {
+                name: 'FINANCE',
+                gridConfig: {
+                    columns: 12,
+                    rows: 8,
+                    gap: 10,
+                    padding: 10,
+                    radius: 4
+                },
+                widgets: [],
+                savedAt: new Date().toISOString()
+            };
+        }
+        
+        // Add or update Start Page dashboard
+        this.dashboards['START PAGE'] = {
+            name: 'START PAGE',
+            gridConfig: {
+                columns: 12,
+                rows: 12,
+                gap: 10,
+                padding: 10,
+                radius: 4
+            },
+            widgets: [
+                {
+                    id: 'richtext-1',
+                    type: 'richtext',
+                    startCell: '3D',
+                    endCell: '5I'
+                },
+                {
+                    id: 'dev-1',
+                    type: 'dev',
+                    startCell: '6D',
+                    endCell: '8I'
+                }
+            ],
+            savedAt: new Date().toISOString()
+        };
+        
+        localStorage.setItem('savedDashboards', JSON.stringify(this.dashboards));
+    }
+    
+    setupDashboardName() {
+        const nameElement = document.getElementById('dashboardName');
+        nameElement.textContent = this.currentDashboard;
+        
+        nameElement.addEventListener('click', () => {
+            this.startEditing();
+        });
+    }
+    
+    startEditing() {
+        const nameElement = document.getElementById('dashboardName');
+        const currentName = nameElement.textContent;
+        
+        nameElement.classList.add('editing');
+        nameElement.contentEditable = true;
+        nameElement.focus();
+        
+        // Select all text
+        const range = document.createRange();
+        range.selectNodeContents(nameElement);
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+        
+        const finishEditing = () => {
+            const newName = nameElement.textContent.trim().toUpperCase() || 'MY DASHBOARD';
+            this.currentDashboard = newName;
+            nameElement.textContent = newName;
+            nameElement.classList.remove('editing');
+            nameElement.contentEditable = false;
+            localStorage.setItem('currentDashboard', newName);
+        };
+        
+        nameElement.addEventListener('blur', finishEditing, { once: true });
+        nameElement.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                finishEditing();
+            } else if (e.key === 'Escape') {
+                nameElement.textContent = this.currentDashboard;
+                finishEditing();
+            }
+        });
+    }
+    
+    setupDashboardControls() {
+        document.getElementById('saveDashboard').addEventListener('click', () => {
+            this.saveCurrentDashboard();
+        });
+    }
+    
+    setupDashboardMenu() {
+        const menuBtn = document.getElementById('dashboardMenuBtn');
+        const closeBtn = document.getElementById('closeDashboardMenu');
+        
+        menuBtn.addEventListener('click', () => {
+            this.openDashboardMenu();
+        });
+        
+        closeBtn.addEventListener('click', () => {
+            this.closeDashboardMenu();
+        });
+    }
+    
+    openDashboardMenu() {
+        const overlay = document.getElementById('dashboardMenuOverlay');
+        overlay.classList.add('show');
+        this.populateDashboardList();
+        
+        // Focus first option for keyboard navigation
+        const firstOption = overlay.querySelector('.dashboard-option');
+        if (firstOption) {
+            firstOption.focus();
+            firstOption.classList.add('focused');
+        }
+    }
+    
+    closeDashboardMenu() {
+        const overlay = document.getElementById('dashboardMenuOverlay');
+        overlay.classList.remove('show');
+    }
+    
+    populateDashboardList() {
+        const content = document.getElementById('dashboardMenuContent');
+        content.innerHTML = '';
+        
+        // Add "New Dashboard" option at the top
+        const newDashboardOption = document.createElement('div');
+        newDashboardOption.className = 'dashboard-option new-dashboard-option';
+        newDashboardOption.setAttribute('tabindex', '0');
+        
+        const newDashboardSpan = document.createElement('span');
+        newDashboardSpan.textContent = '+ New Dashboard';
+        newDashboardSpan.className = 'dashboard-name-text';
+        
+        newDashboardOption.appendChild(newDashboardSpan);
+        
+        newDashboardOption.addEventListener('click', () => {
+            this.createNewDashboard();
+            this.closeDashboardMenu();
+        });
+        
+        newDashboardOption.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                this.createNewDashboard();
+                this.closeDashboardMenu();
+            }
+        });
+        
+        content.appendChild(newDashboardOption);
+        
+        Object.keys(this.dashboards).forEach(name => {
+            const option = document.createElement('div');
+            option.className = 'dashboard-option';
+            option.setAttribute('tabindex', '0');
+            
+            // Create dashboard name span
+            const nameSpan = document.createElement('span');
+            nameSpan.textContent = name;
+            nameSpan.className = 'dashboard-name-text';
+            
+            // Create delete button
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'dashboard-delete-btn';
+            deleteBtn.innerHTML = '<i data-lucide="trash-2"></i>';
+            deleteBtn.title = 'Delete dashboard';
+            
+            // Add click handler for delete button
+            deleteBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent triggering the dashboard load
+                this.deleteDashboard(name);
+            });
+            
+            option.appendChild(nameSpan);
+            option.appendChild(deleteBtn);
+            
+            if (name === this.currentDashboard) {
+                option.classList.add('active');
+            }
+            
+            option.addEventListener('click', () => {
+                this.loadDashboard(name);
+                this.closeDashboardMenu();
+            });
+            
+            option.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    this.loadDashboard(name);
+                    this.closeDashboardMenu();
+                }
+            });
+            
+            content.appendChild(option);
+        });
+    }
+    
+    setupChangeDetection() {
+        // Listen for grid changes
+        const gridInputs = ['columns', 'rows', 'gap', 'padding', 'radius'];
+        gridInputs.forEach(inputId => {
+            const input = document.getElementById(inputId);
+            if (input) {
+                input.addEventListener('input', () => {
+                    this.markAsChanged();
+                });
+            }
+        });
+        
+        // Listen for widget changes (add/remove/move)
+        this.gridTest.widgetsOverlay.addEventListener('DOMNodeInserted', () => {
+            this.markAsChanged();
+        });
+        
+        this.gridTest.widgetsOverlay.addEventListener('DOMNodeRemoved', () => {
+            this.markAsChanged();
+        });
+        
+        // Initial state
+        this.updateSaveButtonState();
+    }
+    
+    markAsChanged() {
+        this.hasUnsavedChanges = true;
+        this.updateSaveButtonState();
+    }
+    
+    markAsSaved() {
+        this.hasUnsavedChanges = false;
+        this.updateSaveButtonState();
+    }
+    
+    updateSaveButtonState() {
+        const saveBtn = document.getElementById('saveDashboard');
+        if (saveBtn) {
+            if (this.hasUnsavedChanges) {
+                saveBtn.classList.add('has-changes');
+            } else {
+                saveBtn.classList.remove('has-changes');
+            }
+        }
+    }
+    
+    saveCurrentDashboard() {
+        const dashboardData = {
+            name: this.currentDashboard,
+            gridConfig: {
+                columns: this.gridTest.columns,
+                rows: this.gridTest.rows,
+                gap: this.gridTest.gap,
+                padding: this.gridTest.padding,
+                radius: this.gridTest.radius
+            },
+            widgets: this.getCurrentWidgets(),
+            savedAt: new Date().toISOString()
+        };
+        
+        this.dashboards[this.currentDashboard] = dashboardData;
+        localStorage.setItem('savedDashboards', JSON.stringify(this.dashboards));
+        this.markAsSaved();
+        this.showMessage('Dashboard saved!');
+    }
+    
+    getCurrentWidgets() {
+        const widgets = [];
+        const widgetElements = this.gridTest.widgetsOverlay.querySelectorAll('[id^="map-"], [id^="chart-"], [id^="sunburst-"], [id^="custom-"], [id^="richtext-"]');
+        
+        widgetElements.forEach(widget => {
+            widgets.push({
+                id: widget.id,
+                type: widget.id.split('-')[0],
+                startCell: widget.dataset.startCell,
+                endCell: widget.dataset.endCell
+            });
+        });
+        
+        return widgets;
+    }
+    
+    loadDashboard(name) {
+        const dashboard = this.dashboards[name];
+        if (!dashboard) return;
+        
+        // Apply grid config
+        this.gridTest.columns = dashboard.gridConfig.columns;
+        this.gridTest.rows = dashboard.gridConfig.rows;
+        this.gridTest.gap = dashboard.gridConfig.gap;
+        this.gridTest.padding = dashboard.gridConfig.padding;
+        this.gridTest.radius = dashboard.gridConfig.radius;
+        
+        // Update UI
+        document.getElementById('columns').value = this.gridTest.columns;
+        document.getElementById('rows').value = this.gridTest.rows;
+        document.getElementById('gap').value = this.gridTest.gap;
+        document.getElementById('padding').value = this.gridTest.padding;
+        document.getElementById('radius').value = this.gridTest.radius;
+        
+        // Clear existing widgets
+        this.gridTest.widgetsOverlay.innerHTML = '';
+        
+        // Recreate widgets
+        dashboard.widgets.forEach(widgetData => {
+            if (widgetData.startCell && widgetData.endCell) {
+                // Create widget with position data
+                const widget = this.gridTest.widgetManager.createWidget(widgetData.type, {
+                    startCell: widgetData.startCell,
+                    endCell: widgetData.endCell
+                }, widgetData.id);
+                
+                if (widget) {
+                    // Position the widget
+                    this.gridTest.positionWidget(widget, widgetData.startCell, widgetData.endCell);
+                }
+            }
+        });
+        
+        // Update grid configuration without recreating grid items
+        this.gridTest.updateGridConfig();
+        
+        // Update RichText widget positions for current mode
+        this.gridTest.updateRichTextWidgetPositions();
+        
+        // Update dashboard name
+        this.currentDashboard = name;
+        document.getElementById('dashboardName').textContent = name;
+        localStorage.setItem('currentDashboard', name);
+        
+        // Mark as saved since we just loaded a saved state
+        this.markAsSaved();
+        
+        this.showMessage('Dashboard loaded!');
+    }
+    
+    deleteDashboard(name) {
+        // Delete from localStorage
+        delete this.dashboards[name];
+        localStorage.setItem('savedDashboards', JSON.stringify(this.dashboards));
+        
+        // If we deleted the current dashboard, reset to default
+        if (name === this.currentDashboard) {
+            this.resetToDefaultDashboard();
+        }
+        
+        // Refresh the dashboard list
+        this.populateDashboardList();
+        
+        this.showMessage('Dashboard deleted!');
+    }
+    
+    resetToDefaultDashboard() {
+        // Clear all widgets
+        this.gridTest.widgetsOverlay.innerHTML = '';
+        
+        // Reset to default dashboard name
+        this.currentDashboard = 'START PAGE';
+        document.getElementById('dashboardName').textContent = this.currentDashboard;
+        localStorage.setItem('currentDashboard', this.currentDashboard);
+        
+        // Create a default map widget
+        this.gridTest.widgetManager.createWidget('map', { startCell: '3F', endCell: '7H' });
+        
+        // Mark as saved
+        this.markAsSaved();
+        
+        this.showMessage('Reset to default dashboard');
+    }
+    
+    createNewDashboard() {
+        const timestamp = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
+        const newName = `DASHBOARD ${timestamp}`;
+        
+        // Create empty dashboard with current grid config
+        this.dashboards[newName] = {
+            name: newName,
+            gridConfig: {
+                columns: this.columns,
+                rows: this.rows,
+                gap: this.gap,
+                padding: this.padding,
+                radius: this.radius
+            },
+            widgets: [],
+            savedAt: new Date().toISOString()
+        };
+        
+        // Save to localStorage
+        localStorage.setItem('savedDashboards', JSON.stringify(this.dashboards));
+        
+        // Load the new dashboard
+        this.loadDashboard(newName);
+        
+        this.showMessage('New dashboard created!');
+    }
+    
+    showMessage(text) {
+        const msg = document.createElement('div');
+        msg.textContent = text;
+        msg.style.cssText = 'position:fixed;top:20px;right:20px;background:#089BDF;color:white;padding:8px 16px;border-radius:4px;z-index:1000;font-size:14px;';
+        document.body.appendChild(msg);
+        setTimeout(() => msg.remove(), 2000);
+    }
+}
 
 class GridTest {
     constructor() {
@@ -18,11 +445,13 @@ class GridTest {
             map: MapWidget,
             chart: ChartWidget,
             sunburst: SunburstWidget,
-            custom: CustomWidget
+            custom: CustomWidget,
+            richtext: RichTextWidget,
+            dev: DevWidget
         };
         this.widgets = new Map(); // Track all widgets
         this.selectedWidget = null;
-        this.widgetCounters = { map: 0, chart: 0, sunburst: 0, custom: 0 }; // Track widget instances
+        this.widgetCounters = { map: 0, chart: 0, sunburst: 0, custom: 0, richtext: 0, dev: 0 }; // Track widget instances
         
         this.config = {
             columns: { min: 1, max: 12, default: 12 },
@@ -49,18 +478,24 @@ class GridTest {
             EDIT: 'edit',
             VIEW: 'view'
         };
-        this.gridMode = true;
+        this.gridMode = false;
         
         // Initialize managers first
         this.keyboardManager = new KeyboardManager(this);
         this.mapSyncManager = new MapSyncManager(this);
         this.configPanel = new ConfigPanel(this);
         this.widgetManager = new WidgetManager(this);
+        this.dashboardManager = new DashboardManager(this);
         
         this.setupControls();
         this.setupAddWidgetControls();
         this.setupColorPicker();
         this.updateGrid(); // Apply initial values to CSS
+        
+        // Set initial toolbar mode and hide grid
+        this.setToolbarMode('view');
+        this.grid.style.display = 'none';
+        this.widgetManager.setAllWidgetsMode(this.MODES.VIEW);
     }
     
     setupControls() {
@@ -231,6 +666,23 @@ class GridTest {
         this.updateWidgetPositions();
     }
     
+    updateGridConfig() {
+        // Update grid styling without recreating grid items
+        this.grid.style.gridTemplateColumns = `repeat(${this.columns}, 1fr)`;
+        this.grid.style.gridTemplateRows = `repeat(${this.rows}, 1fr)`;
+        this.grid.style.gap = `${this.gap}px`;
+        this.grid.style.padding = `${this.padding}px`;
+        
+        // Update radius for existing items
+        const gridItems = this.grid.querySelectorAll('.grid-item');
+        gridItems.forEach(item => {
+            item.style.borderRadius = `${this.radius}px`;
+        });
+        
+        // Update widget positions
+        this.updateWidgetPositions();
+    }
+    
     createGridItems() {
         // Store all existing widgets before recreating grid
         const existingWidgets = Array.from(this.widgetsOverlay.children).map(widget => ({
@@ -329,19 +781,54 @@ class GridTest {
         this.gridMode = !this.gridMode;
         
         if (this.gridMode) {
-            // Enter grid mode
+            // Enter edit mode
             this.grid.style.display = 'grid';
-            document.querySelector('.controls').style.display = 'flex';
-            document.getElementById('addWidgetControls').style.display = 'flex';
+            this.setToolbarMode('edit');
             this.widgetManager.setAllWidgetsMode(this.MODES.EDIT);
         } else {
-            // Enter widget mode
+            // Enter view mode
             this.grid.style.display = 'none';
-            document.querySelector('.controls').style.display = 'none';
-            document.getElementById('addWidgetControls').style.display = 'none';
+            this.setToolbarMode('view');
             this.widgetManager.setAllWidgetsMode(this.MODES.VIEW);
             this.widgetManager.deselectAllWidgets();
         }
+    }
+    
+    setToolbarMode(mode) {
+        const controls = document.querySelector('.controls');
+        
+        if (mode === 'edit') {
+            controls.classList.remove('view-mode');
+            controls.classList.add('edit-mode');
+        } else {
+            controls.classList.remove('edit-mode');
+            controls.classList.add('view-mode');
+        }
+        
+        // Update dev widget visibility
+        this.updateDevWidgetVisibility();
+    }
+    
+    updateDevWidgetVisibility() {
+        const devWidgets = document.querySelectorAll('.dev-widget');
+        const isEditMode = !document.querySelector('.controls').classList.contains('view-mode');
+        
+        devWidgets.forEach(widget => {
+            widget.style.display = isEditMode ? 'block' : 'none';
+        });
+        
+        // Update RichText widget positions for mode changes
+        this.updateRichTextWidgetPositions();
+    }
+    
+    updateRichTextWidgetPositions() {
+        const richtextWidgets = document.querySelectorAll('.richtext-widget');
+        richtextWidgets.forEach(widget => {
+            const widgetInstance = this.widgets.get(widget.id);
+            if (widgetInstance && widgetInstance.updatePositionForMode) {
+                widgetInstance.updatePositionForMode();
+            }
+        });
     }
     
     
@@ -352,8 +839,22 @@ class GridTest {
     
     getCellDimensions() {
         // Calculate cell dimensions (used in multiple places)
+        // Temporarily show grid to get accurate dimensions if it's hidden
+        const wasHidden = this.grid.style.display === 'none';
+        if (wasHidden) {
+            this.grid.style.display = 'grid';
+            this.grid.style.visibility = 'hidden';
+        }
+        
         const cellWidth = (this.grid.offsetWidth - this.padding * 2 - (this.columns - 1) * this.gap) / this.columns;
         const cellHeight = (this.grid.offsetHeight - this.padding * 2 - (this.rows - 1) * this.gap) / this.rows;
+        
+        // Restore original state if it was hidden
+        if (wasHidden) {
+            this.grid.style.display = 'none';
+            this.grid.style.visibility = 'visible';
+        }
+        
         return { cellWidth, cellHeight };
     }
     

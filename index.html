@@ -15,6 +15,15 @@
 </head>
 <body>
     <div class="controls">
+        <div class="control-group dashboard-controls">
+            <button id="dashboardMenuBtn" class="menu-btn">
+                <i data-lucide="chevron-up"></i>
+            </button>
+            <span id="dashboardName" class="dashboard-name">MY DASHBOARD</span>
+            <button id="saveDashboard" class="save-btn">
+                <i data-lucide="save"></i>
+            </button>
+        </div>
         <div class="control-group">
             <i data-lucide="columns" class="icon"></i>
             <input type="number" id="columns" value="12" min="1" max="12" placeholder="Columns">
@@ -98,6 +107,30 @@
                         <p>AI-generated custom widgets</p>
                     </div>
                 </div>
+                <div class="widget-option" data-widget-type="richtext">
+                    <div class="widget-icon">
+                        <i data-lucide="file-text"></i>
+                    </div>
+                    <div class="widget-info">
+                        <h4>Rich Text Widget</h4>
+                        <p>HTML content with rich formatting</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Menu Overlay -->
+    <div id="dashboardMenuOverlay" class="dashboard-menu-overlay">
+        <div class="dashboard-menu">
+            <div class="dashboard-menu-header">
+                <h3>Saved Dashboards</h3>
+                <button id="closeDashboardMenu" class="close-btn">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div id="dashboardMenuContent" class="dashboard-menu-content">
+                <!-- Dynamic dashboard list will be populated here -->
             </div>
         </div>
     </div>
