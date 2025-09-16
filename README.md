@@ -6,7 +6,7 @@ A modern, customizable dashboard system with dynamic grid layout and real-time w
 
 ![Main Dashboard Demo](main-demo.gif)
 
-*Complete dashboard workflow - grid management, widget creation, dashboard switching, and mode transitions*
+*Dashboard workflow - grid management, widget creation, dashboard switching, and mode transitions*
 
 ![Dashboard Demo](demo.gif)
 
