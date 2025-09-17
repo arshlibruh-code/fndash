@@ -1,3 +1,4 @@
+// Created by @arshlibruh
 import { WidgetCore } from './widgets/WidgetCore.js';
 import { MapWidget } from './widgets/map-widget.js';
 import { ChartWidget } from './widgets/chart-widget.js';

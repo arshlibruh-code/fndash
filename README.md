@@ -282,3 +282,4 @@ The system supports AI-generated custom widgets:
 ---
 
 Built for modern web applications
+**Created by [@arshlibruh](https://github.com/arshlibruh-code)**
