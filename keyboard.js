@@ -41,6 +41,13 @@ class KeyboardManager {
                 return;
             }
             
+            // Shift+P to toggle dashboard menu
+            if (e.shiftKey && e.key === 'P') {
+                e.preventDefault();
+                this.dashboard.dashboardManager.toggleDashboardMenu();
+                return;
+            }
+            
             if (!this.dashboard.gridMode) return; // Guard clause for grid mode
             
             if (e.metaKey && e.shiftKey) {
@@ -87,8 +94,16 @@ class KeyboardManager {
                 }
             }
             
-            // Deselect widgets if not clicking on widget or controls
-            if (!e.target.closest('.widget') && !e.target.closest('.controls')) {
+            // Close dashboard menu if clicking outside
+            const dashboardMenuOverlay = document.getElementById('dashboardMenuOverlay');
+            if (dashboardMenuOverlay && dashboardMenuOverlay.classList.contains('show')) {
+                if (!e.target.closest('.dashboard-menu') && !e.target.closest('#dashboardMenuBtn')) {
+                    this.dashboard.closeDashboardMenu();
+                }
+            }
+            
+            // Deselect widgets if not clicking on widget, controls, or config panel
+            if (!e.target.closest('.widget') && !e.target.closest('.controls') && !e.target.closest('.config-panel')) {
                 this.dashboard.widgetManager.deselectAllWidgets();
             }
         });

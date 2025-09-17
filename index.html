@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grid Test</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Montserrat:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&family=Nunito:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Merriweather:wght@300;400;700&family=Oswald:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;600;700&family=Ubuntu:wght@300;400;500;700&family=PT+Sans:wght@400;700&family=PT+Serif:wght@400;700&family=Crimson+Text:wght@400;600;700&family=Lora:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Serif:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="widgets/widget.css">
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
@@ -14,7 +17,7 @@
     <script src="config.js"></script>
 </head>
 <body>
-    <div class="controls">
+    <div class="controls view-mode">
         <div class="control-group dashboard-controls">
             <button id="dashboardMenuBtn" class="menu-btn">
                 <i data-lucide="chevron-up"></i>
@@ -75,11 +78,9 @@
     <!-- Dashboard Menu Overlay -->
     <div id="dashboardMenuOverlay" class="dashboard-menu-overlay">
         <div class="dashboard-menu">
-            <div class="dashboard-menu-header">
-                <h3>Saved Dashboards</h3>
-                <button id="closeDashboardMenu" class="close-btn">
-                    <i data-lucide="x"></i>
-                </button>
+            <div class="dashboard-option" data-dashboard-action="create">
+                <i data-lucide="plus" style="width: 14px; height: 14px;"></i>
+                <span>Create New Dashboard</span>
             </div>
             <div id="dashboardMenuContent" class="dashboard-menu-content">
                 <!-- Dynamic dashboard list will be populated here -->

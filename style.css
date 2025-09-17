@@ -28,7 +28,6 @@ body {
     display: flex;
     gap: 16px;
     align-items: center;
-    height: 50px;
     transition: all 0.3s ease;
     transform-origin: center;
 }
@@ -60,6 +59,9 @@ body {
 
 /* Control Groups */
 .control-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
     transition: opacity 0.3s ease, width 0.3s ease;
     opacity: 1;
 }
@@ -82,7 +84,6 @@ body {
 
 .dashboard-name {
     font-weight: bold;
-    text-transform: uppercase;
     color: #fff;
     font-size: 14px;
     cursor: pointer;
@@ -109,15 +110,14 @@ body {
     color: rgba(255, 255, 255, 0.4);
     cursor: pointer;
     transition: all 0.2s;
-    padding: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .save-btn i, .menu-btn i {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
     stroke-width: 1.5;
 }
 
@@ -137,11 +137,6 @@ body {
     color: rgba(255, 255, 255, 0.8);
 }
 
-.control-group {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
 
 .control-group.widget-controls {
     display: none;
@@ -214,39 +209,31 @@ body {
 /* MacBook-style Keycap Styling */
 kbd {
     display: inline-block;
-    padding: 4px 8px;
-    border: 1px solid linear-gradient(145deg, #424242, #979797);
-    border-radius: 6px;
-    background: linear-gradient(145deg, #3c3c3c, #1a1a1a);
-    color: #ffffff;
+    padding: 3px 6px;
+    border: 1px solid #444;
+    border-radius: 3px;
+    background: #2a2a2a;
+    color: #fff;
     font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
-    font-size: 0.85em;
-    font-weight: 500;
+    font-size: 0.8em;
+    font-weight: 400;
     line-height: 1;
     text-align: center;
-    box-shadow: 
-        0 1px 0 0 linear-gradient(145deg, #3c3c3c, #1a1a1a),
-        0 2px 4px rgba(107, 114, 128, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     transition: all 0.1s ease;
-    min-width: 20px;
+    min-width: 18px;
     user-select: none;
 }
 
 kbd:hover {
-    transform: translateY(-1px);
-    box-shadow: 
-        0 2px 0 0 #9ca3af,
-        0 4px 8px rgba(107, 114, 128, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    background: #3a3a3a;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 kbd:active {
+    background: #1a1a1a;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
     transform: translateY(1px);
-    box-shadow: 
-        0 0 0 0 #9ca3af,
-        0 1px 2px rgba(107, 114, 128, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
 /* Widget Menu Overlay */

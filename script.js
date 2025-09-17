@@ -27,21 +27,7 @@ class DashboardManager {
     }
     
     initializeDefaultDashboards() {
-        // Add Finance dashboard if it doesn't exist
-        if (!this.dashboards['FINANCE']) {
-            this.dashboards['FINANCE'] = {
-                name: 'FINANCE',
-                gridConfig: {
-                    columns: 12,
-                    rows: 8,
-                    gap: 10,
-                    padding: 10,
-                    radius: 4
-                },
-                widgets: [],
-                savedAt: new Date().toISOString()
-            };
-        }
+        // Only initialize START PAGE dashboard - let users create others manually
         
         // Add or update Start Page dashboard
         this.dashboards['START PAGE'] = {
@@ -70,7 +56,25 @@ class DashboardManager {
             savedAt: new Date().toISOString()
         };
         
+        // Fix any existing dashboards with undefined grid config values
+        this.fixDashboardGridConfigs();
+        
         localStorage.setItem('savedDashboards', JSON.stringify(this.dashboards));
+    }
+    
+    fixDashboardGridConfigs() {
+        // Fix any dashboards that have undefined grid config values
+        Object.keys(this.dashboards).forEach(dashboardName => {
+            const dashboard = this.dashboards[dashboardName];
+            if (dashboard.gridConfig) {
+                // Check and fix undefined values
+                if (dashboard.gridConfig.columns === undefined) dashboard.gridConfig.columns = 12;
+                if (dashboard.gridConfig.rows === undefined) dashboard.gridConfig.rows = 8;
+                if (dashboard.gridConfig.gap === undefined) dashboard.gridConfig.gap = 10;
+                if (dashboard.gridConfig.padding === undefined) dashboard.gridConfig.padding = 10;
+                if (dashboard.gridConfig.radius === undefined) dashboard.gridConfig.radius = 4;
+            }
+        });
     }
     
     setupDashboardName() {
@@ -126,15 +130,19 @@ class DashboardManager {
     
     setupDashboardMenu() {
         const menuBtn = document.getElementById('dashboardMenuBtn');
-        const closeBtn = document.getElementById('closeDashboardMenu');
         
         menuBtn.addEventListener('click', () => {
             this.openDashboardMenu();
         });
-        
-        closeBtn.addEventListener('click', () => {
+    }
+    
+    toggleDashboardMenu() {
+        const overlay = document.getElementById('dashboardMenuOverlay');
+        if (overlay.classList.contains('show')) {
             this.closeDashboardMenu();
-        });
+        } else {
+            this.openDashboardMenu();
+        }
     }
     
     openDashboardMenu() {
@@ -142,47 +150,140 @@ class DashboardManager {
         overlay.classList.add('show');
         this.populateDashboardList();
         
-        // Focus first option for keyboard navigation
+        // Clear any existing focus
+        this.clearAllFocus();
+        
+        // Focus first option for keyboard navigation (Create New Dashboard)
         const firstOption = overlay.querySelector('.dashboard-option');
         if (firstOption) {
             firstOption.focus();
             firstOption.classList.add('focused');
         }
+        
+        // Add keyboard navigation
+        this.setupDashboardMenuKeyboardNavigation();
     }
     
     closeDashboardMenu() {
         const overlay = document.getElementById('dashboardMenuOverlay');
         overlay.classList.remove('show');
+        
+        // Clear all focus
+        this.clearAllFocus();
+        
+        // Remove keyboard navigation listeners
+        this.removeDashboardMenuKeyboardNavigation();
+    }
+    
+    clearAllFocus() {
+        const overlay = document.getElementById('dashboardMenuOverlay');
+        if (overlay) {
+            const allOptions = overlay.querySelectorAll('.dashboard-option');
+            allOptions.forEach(option => {
+                option.classList.remove('focused');
+                option.blur();
+            });
+        }
+    }
+    
+    setupDashboardMenuKeyboardNavigation() {
+        // Store the current handler so we can remove it later
+        this.dashboardMenuKeyHandler = (e) => {
+            const overlay = document.getElementById('dashboardMenuOverlay');
+            if (!overlay.classList.contains('show')) return;
+            
+            const options = overlay.querySelectorAll('.dashboard-option');
+            const currentFocused = overlay.querySelector('.dashboard-option.focused');
+            
+            if (!currentFocused) {
+                // If no option is focused, focus the first one
+                if (options.length > 0) {
+                    options[0].classList.add('focused');
+                    options[0].focus();
+                }
+                return;
+            }
+            
+            const currentIndex = Array.from(options).indexOf(currentFocused);
+            
+            switch (e.key) {
+                case 'ArrowDown':
+                    e.preventDefault();
+                    const nextIndex = currentIndex < options.length - 1 ? currentIndex + 1 : 0;
+                    this.updateDashboardMenuFocus(options, nextIndex);
+                    break;
+                    
+                case 'ArrowUp':
+                    e.preventDefault();
+                    const prevIndex = currentIndex > 0 ? currentIndex - 1 : options.length - 1;
+                    this.updateDashboardMenuFocus(options, prevIndex);
+                    break;
+                    
+                case 'Enter':
+                    e.preventDefault();
+                    if (currentFocused) {
+                        currentFocused.click();
+                    }
+                    break;
+                    
+                case 'Escape':
+                    e.preventDefault();
+                    this.closeDashboardMenu();
+                    break;
+                    
+                case 'Delete':
+                    e.preventDefault();
+                    if (currentFocused && currentFocused.dataset.dashboardAction !== 'create') {
+                        // Only delete if it's not the "Create New Dashboard" option
+                        const dashboardName = currentFocused.querySelector('.dashboard-name-text')?.textContent;
+                        if (dashboardName && dashboardName !== this.currentDashboard && dashboardName !== 'START PAGE') {
+                            this.deleteDashboard(dashboardName);
+                        }
+                    }
+                    break;
+            }
+        };
+        
+        document.addEventListener('keydown', this.dashboardMenuKeyHandler);
+    }
+    
+    removeDashboardMenuKeyboardNavigation() {
+        if (this.dashboardMenuKeyHandler) {
+            document.removeEventListener('keydown', this.dashboardMenuKeyHandler);
+            this.dashboardMenuKeyHandler = null;
+        }
+    }
+    
+    updateDashboardMenuFocus(options, focusedIndex) {
+        // Clear all focus first
+        this.clearAllFocus();
+        
+        // Add focus class and focus to current option
+        if (options[focusedIndex]) {
+            options[focusedIndex].classList.add('focused');
+            options[focusedIndex].focus();
+        }
     }
     
     populateDashboardList() {
         const content = document.getElementById('dashboardMenuContent');
         content.innerHTML = '';
         
-        // Add "New Dashboard" option at the top
-        const newDashboardOption = document.createElement('div');
-        newDashboardOption.className = 'dashboard-option new-dashboard-option';
-        newDashboardOption.setAttribute('tabindex', '0');
+        // Clear all focus when repopulating
+        this.clearAllFocus();
         
-        const newDashboardSpan = document.createElement('span');
-        newDashboardSpan.textContent = '+ New Dashboard';
-        newDashboardSpan.className = 'dashboard-name-text';
-        
-        newDashboardOption.appendChild(newDashboardSpan);
-        
-        newDashboardOption.addEventListener('click', () => {
-            this.createNewDashboard();
-            this.closeDashboardMenu();
-        });
-        
-        newDashboardOption.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
+        // Handle the "Create New Dashboard" option that's now in HTML
+        const createOption = document.querySelector('[data-dashboard-action="create"]');
+        if (createOption) {
+            // Remove existing event listeners to prevent duplicates
+            createOption.replaceWith(createOption.cloneNode(true));
+            const newCreateOption = document.querySelector('[data-dashboard-action="create"]');
+            
+            newCreateOption.addEventListener('click', () => {
                 this.createNewDashboard();
                 this.closeDashboardMenu();
-            }
-        });
-        
-        content.appendChild(newDashboardOption);
+            });
+        }
         
         Object.keys(this.dashboards).forEach(name => {
             const option = document.createElement('div');
@@ -194,20 +295,25 @@ class DashboardManager {
             nameSpan.textContent = name;
             nameSpan.className = 'dashboard-name-text';
             
-            // Create delete button
-            const deleteBtn = document.createElement('button');
-            deleteBtn.className = 'dashboard-delete-btn';
-            deleteBtn.innerHTML = '<i data-lucide="trash-2"></i>';
-            deleteBtn.title = 'Delete dashboard';
-            
-            // Add click handler for delete button
-            deleteBtn.addEventListener('click', (e) => {
-                e.stopPropagation(); // Prevent triggering the dashboard load
-                this.deleteDashboard(name);
-            });
-            
             option.appendChild(nameSpan);
-            option.appendChild(deleteBtn);
+            
+            // Only show delete button if it's not the current dashboard and not START PAGE
+            if (name !== this.currentDashboard && name !== 'START PAGE') {
+                // Create delete button (hidden by default)
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'dashboard-delete-btn';
+                deleteBtn.innerHTML = '<i data-lucide="trash-2" style="width: 14px; height: 14px;"></i>';
+                deleteBtn.title = 'Delete dashboard';
+                
+                // Add click handler for delete button
+                deleteBtn.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent triggering the dashboard load
+                    this.deleteDashboard(name);
+                    // Don't close the menu - keep it open and refresh
+                });
+                
+                option.appendChild(deleteBtn);
+            }
             
             if (name === this.currentDashboard) {
                 option.classList.add('active');
@@ -227,6 +333,11 @@ class DashboardManager {
             
             content.appendChild(option);
         });
+        
+        // Initialize Lucide icons for all delete buttons after they're all created
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
     }
     
     setupChangeDetection() {
@@ -315,12 +426,12 @@ class DashboardManager {
         const dashboard = this.dashboards[name];
         if (!dashboard) return;
         
-        // Apply grid config
-        this.gridTest.columns = dashboard.gridConfig.columns;
-        this.gridTest.rows = dashboard.gridConfig.rows;
-        this.gridTest.gap = dashboard.gridConfig.gap;
-        this.gridTest.padding = dashboard.gridConfig.padding;
-        this.gridTest.radius = dashboard.gridConfig.radius;
+        // Apply grid config with fallback to defaults for undefined values
+        this.gridTest.columns = dashboard.gridConfig.columns ?? 12;
+        this.gridTest.rows = dashboard.gridConfig.rows ?? 8;
+        this.gridTest.gap = dashboard.gridConfig.gap ?? 10;
+        this.gridTest.padding = dashboard.gridConfig.padding ?? 10;
+        this.gridTest.radius = dashboard.gridConfig.radius ?? 4;
         
         // Update UI
         document.getElementById('columns').value = this.gridTest.columns;
@@ -379,7 +490,7 @@ class DashboardManager {
             this.resetToDefaultDashboard();
         }
         
-        // Refresh the dashboard list
+        // Refresh the dashboard list (keeps menu open)
         this.populateDashboardList();
         
         this.showMessage('Dashboard deleted!');
@@ -404,18 +515,30 @@ class DashboardManager {
     }
     
     createNewDashboard() {
-        const timestamp = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
-        const newName = `DASHBOARD ${timestamp}`;
+        // Generate sequential number for untitled dashboards
+        let counter = 1;
+        let newName;
+        do {
+            const now = new Date();
+            const day = now.getDate().toString().padStart(2, '0');
+            const monthNames = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 
+                              'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+            const month = monthNames[now.getMonth()];
+            const year = now.getFullYear().toString().slice(-2);
+            
+            newName = `untitled-dashboard-${counter.toString().padStart(4, '0')}-${day}-${month}-${year}`;
+            counter++;
+        } while (this.dashboards[newName]); // Ensure unique name
         
         // Create empty dashboard with current grid config
         this.dashboards[newName] = {
             name: newName,
             gridConfig: {
-                columns: this.columns,
-                rows: this.rows,
-                gap: this.gap,
-                padding: this.padding,
-                radius: this.radius
+                columns: this.gridTest.columns,
+                rows: this.gridTest.rows,
+                gap: this.gridTest.gap,
+                padding: this.gridTest.padding,
+                radius: this.gridTest.radius
             },
             widgets: [],
             savedAt: new Date().toISOString()

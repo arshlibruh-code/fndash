@@ -1,6 +1,6 @@
 # fndash
 
-A modern, customizable dashboard system with dynamic grid layout and real-time widget management.
+Universal dashboard builder with dynamic grid layout, widget management, and real-time collaboration. Built with vanilla JavaScript for universal compatibility and maximum performance.
 
 ## Table of Contents
 
@@ -21,13 +21,11 @@ A modern, customizable dashboard system with dynamic grid layout and real-time w
 
 ## Demo
 
-![Main Dashboard Demo](main-demo.gif)
+![Main Dashboard Demo](demo-main.gif)
 
 *Dashboard workflow - grid management, widget creation, dashboard switching, and mode transitions*
 
 ![Dashboard Demo](demo.gif)
-
-*Watch the dashboard in action - dynamic grid resizing, widget management, and real-time configuration*
 
 ![Dashboard Demo 2](demo2.gif)
 
@@ -42,8 +40,8 @@ A modern, customizable dashboard system with dynamic grid layout and real-time w
    ```
 
 2. **Open in browser**
-   - Simply open `index.html` in any modern browser
-   - No build process or dependencies required
+   - Simply open `index.html` in any browser
+   - Zero dependencies, universal browser support
    - Works offline after initial load
 
 3. **Alternative: Local server (recommended)**
@@ -61,7 +59,7 @@ A modern, customizable dashboard system with dynamic grid layout and real-time w
 
 ## Quick Start
 
-1. Open `index.html` in a modern browser
+1. Open `index.html` in any browser
 2. Use the toolbar to adjust grid settings
 3. Add widgets and configure them via the gear icon
 4. Create custom widgets with JSON configuration
@@ -129,31 +127,37 @@ A modern, customizable dashboard system with dynamic grid layout and real-time w
 
 ## Widget Types
 
-- **Map Widget** - Interactive maps with Mapbox GL JS (attribution removed)
-- **Sunburst Widget** - Hierarchical data visualization with ECharts and multiple data sources
-- **Chart Widget** - Categorized data visualization with 12 chart categories and grid-based selection
-- **RichText Widget** - HTML content display with dynamic positioning for edit/view modes
-- **Dev Widget** - Developer instructions and keyboard shortcuts (edit mode only)
-- **Custom Widget** - AI-generated widgets with JSON configuration and localStorage persistence
+| Widget | Description | Status |
+|--------|-------------|--------|
+| **Map Widget** | Interactive maps with Mapbox GL JS (attribution removed) | ✅ Complete |
+| **Sunburst Widget** | Hierarchical data visualization with ECharts and multiple data sources | ✅ Complete |
+| **Chart Widget** | Categorized data visualization with 12 chart categories and grid-based selection | 🚧 Partial |
+| **RichText Widget** | HTML content display with dynamic positioning for edit/view modes | ✅ Complete |
+| **Dev Widget** | Developer instructions and keyboard shortcuts (edit mode only) | ✅ Complete |
+| **Custom Widget** | AI-generated widgets with JSON configuration and localStorage persistence | ✅ Complete |
 
 ## Configuration
 
-Widgets can be configured through the gear icon:
-- **Widget Info** - ID, type, and position display with unified naming system
-- Position and size adjustment
-- Map synchronization settings
-- Chart category selection with 12 logical categories and grid-based interface
-- Sunburst chart data sources and visual settings
-- Custom widget JSON configuration with full-height editor
-- Style and behavior options
+| Feature | Description | Widgets |
+|---------|-------------|---------|
+| **Widget Info** | ID, type, and position display with unified naming system | All |
+| **Position & Size** | Drag to resize, adjust dimensions and placement | All |
+| **Map Sync** | Real-time synchronization between multiple maps | Map |
+| **Chart Categories** | 12 logical categories with grid-based selection interface | Chart |
+| **Data Sources** | Multiple data sources and visual settings | Sunburst |
+| **JSON Editor** | Full-height editor for custom widget configuration | Custom |
+| **Style Options** | Background, colors, fonts, and behavior settings | All |
 
 ## Keyboard Shortcuts
 
-- `Shift + G` - Toggle grid visibility and edit/view mode
-- `Shift + ?` (or `Shift + /`) - Toggle add widget menu
-- `Shift + N` - Create new dashboard
-- `Cmd + Shift + Arrow Keys` - Adjust grid dimensions
-- `ESC` - Deselect widgets or close menus
+| Shortcut | Action | Mode |
+|----------|--------|------|
+| `Shift G` | Toggle edit/view mode | All |
+| `Shift ?` (or `Shift /`) | Toggle add widget menu | All |
+| `Shift N` | Create new dashboard | All |
+| `Shift P` | Open dashboard menu | All |
+| `Cmd Shift Arrow Keys` | Adjust grid dimensions | Edit |
+| `ESC` | Deselect widgets or close menus | All |
 
 ## Architecture
 
@@ -206,10 +210,13 @@ Create powerful custom widgets using JSON configuration:
 
 - **Save Dashboards** - Save current grid and widget configuration with custom names
 - **Load Dashboards** - Switch between saved dashboards with dropdown menu
-- **Create New Dashboards** - Use `Shift + N` or dropdown menu to create empty dashboards
+- **Create New Dashboards** - Use `Shift N` or dropdown menu to create empty dashboards
+- **Dashboard Naming** - Automatic sequential naming: `untitled-dashboard-0001-17-sept-25`
+- **Dashboard Deletion** - Delete dashboards with hover delete buttons (except START PAGE)
+- **Keyboard Navigation** - Full keyboard support for dashboard menu (Arrow keys, Enter, Delete)
 - **Change Detection** - Visual indicators show when dashboards have unsaved changes
 - **localStorage Persistence** - All dashboards saved locally in browser
-- **Default Dashboards** - Pre-configured "START PAGE" and "FINANCE" dashboards
+- **Default Dashboards** - Pre-configured "START PAGE" dashboard
 
 ## Map Synchronization
 
@@ -219,7 +226,7 @@ Two synchronization modes:
 
 ## Technologies
 
-- **Vanilla JavaScript** - No frameworks, pure performance
+- **Vanilla JavaScript** - Universal compatibility, maximum performance
 - **CSS Grid** - Modern layout system
 - **Mapbox GL JS** - Interactive maps
 - **ECharts** - Data visualization library
@@ -240,6 +247,29 @@ Two synchronization modes:
 - MacBook-style keycap styling for keyboard shortcuts
 - Simplified widget menu with text-based interface
 - Glassmorphism styling for consistent visual language
+
+## Recent Improvements
+
+### RichText Widget Enhancements
+- **Google Fonts Integration** - 20+ popular fonts including Inter, Roboto, Open Sans
+- **Advanced Styling** - Font size (max 90px), padding (max 800px), border radius (max 900px)
+- **Background Controls** - Color picker with opacity slider and "No Fill" option
+- **Keyboard Shortcuts** - Shift + Arrow keys for 10px increments on all numeric inputs
+- **Dynamic Positioning** - Edit mode: 3D-4I, View mode: 5D-7I
+
+### Dashboard System Improvements
+- **Smart Naming** - Sequential dashboard naming with current date
+- **Dashboard Deletion** - Hover delete buttons with keyboard support
+- **Keyboard Navigation** - Full arrow key navigation in dashboard menu
+- **Focus Management** - Proper focus handling for accessibility
+- **Grid Configuration** - Automatic fallback values for corrupted dashboards
+
+### UI/UX Enhancements
+- **Widget Hover Effects** - Subtle blue border on widget hover
+- **Custom Scrollbars** - Ultra-thin (1px) dark scrollbars for all widgets
+- **Smooth Transitions** - No visual jumps between edit/view modes
+- **Consistent Styling** - Unified color scheme and spacing
+- **Icon Integration** - Lucide icons throughout the interface
 
 ## AI Integration
 

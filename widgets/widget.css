@@ -14,10 +14,40 @@
     cursor: pointer;
 }
 
+/* Custom Scrollbar Styles - Thin and Dark */
+.widget *::-webkit-scrollbar {
+    width: 1px;
+    height: 1px;
+}
+
+.widget *::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.widget *::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 1px;
+}
+
+.widget *::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* Firefox scrollbar */
+.widget * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+}
+
 /* Show border when selected (simplified) */
 .widget.selected {
     border-color: #089BDF;
-    box-shadow: 0 0 0 2px rgba(8, 155, 223, 0.3);
+    box-shadow: 0 0 0 1px rgba(8, 155, 223, 0.3);
+}
+
+/* Show thin border on hover */
+.widget:hover {
+    border-color: #84d8ff75;
 }
 
 .resize-handle {
@@ -171,6 +201,11 @@
     z-index: 20;
 }
 
+/* Hide debug info in view mode */
+.view-mode .widget-debug {
+    display: none;
+}
+
 /* Configuration Panel */
 .config-panel {
     position: fixed;
@@ -278,6 +313,140 @@
     font-style: italic;
 }
 
+
+/* Simple Background Color Controls */
+.config-background-simple {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    padding: 6px 8px;
+    background: #2a2a2a;
+    border-radius: 4px;
+    border: 1px solid #404040;
+}
+
+.config-hex-container {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+}
+
+.config-color-swatch {
+    width: 16px;
+    height: 16px;
+    border-radius: 2px;
+    border: 1px solid #555;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+.config-color-swatch:hover {
+    border-color: #089BDF;
+}
+
+.config-hex-input {
+    width: 60px;
+    padding: 4px 6px;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    transition: none;
+}
+
+.config-hex-input:focus {
+    outline: none;
+    background: rgba(8, 155, 223, 0.1);
+    border-radius: 3px;
+}
+
+.config-hex-input:disabled {
+    background: transparent;
+    color: #666;
+    cursor: not-allowed;
+}
+
+.config-opacity-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.config-opacity-simple {
+    width: 30px;
+    padding: 4px 6px;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 11px;
+    text-align: center;
+    transition: none;
+    -moz-appearance: textfield; /* Firefox */
+}
+
+.config-opacity-simple::-webkit-outer-spin-button,
+.config-opacity-simple::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.config-opacity-simple:focus {
+    outline: none;
+    background: rgba(8, 155, 223, 0.1);
+    border-radius: 3px;
+}
+
+.config-opacity-simple:disabled {
+    background: transparent;
+    color: #666;
+    cursor: not-allowed;
+}
+
+.config-opacity-suffix {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.config-eye-btn {
+    width: 20px;
+    height: 20px;
+    border: none;
+    border-radius: 3px;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    opacity: 0.6;
+}
+
+.config-eye-btn:hover {
+    background: rgba(8, 155, 223, 0.1);
+    opacity: 1;
+}
+
+.config-eye-btn.active {
+    background: transparent;
+    opacity: 1;
+}
+
+.config-eye-icon {
+    width: 16px;
+    height: 16px;
+    color: rgba(255, 255, 255, 0.8);
+    stroke-width: 1.5;
+}
+
+.config-color-picker {
+    display: none;
+}
+
 /* Sunburst Widget Styles */
 .sunburst-widget {
     background: rgba(46, 39, 51, 0.9);
@@ -377,12 +546,12 @@
 
 .dashboard-menu {
     background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 8px;
-    padding: 12px;
-    min-width: 300px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    padding: 4px 0;
+    width: 260px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
     transform: translateY(10px);
     transition: transform 0.2s ease;
 }
@@ -391,25 +560,9 @@
     transform: translateY(0);
 }
 
-.dashboard-menu-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.dashboard-menu-header h3 {
-    color: #fff;
-    font-size: 14px;
-    font-weight: 600;
-}
-
 .dashboard-menu-content {
     display: flex;
     flex-direction: column;
-    gap: 4px;
 }
 
 .dashboard-option {
@@ -417,11 +570,25 @@
     align-items: center;
     justify-content: space-between;
     gap: 8px;
-    padding: 4px 8px;
-    border-radius: 4px;
+    padding: 8px 12px;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 400;
     cursor: pointer;
-    transition: all 0.2s;
-    border: 1px solid transparent;
+    transition: background-color 0.15s ease;
+}
+
+.dashboard-option:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dashboard-option:active {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.dashboard-option.focused {
+    background-color: rgba(255, 255, 255, 0.15);
+    outline: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .dashboard-name-text {
@@ -431,15 +598,11 @@
 .dashboard-delete-btn {
     background: none;
     border: none;
-    color: rgba(255, 255, 255, 0.6);
+    color: #ff4444;
     cursor: pointer;
-    padding: 4px;
-    border-radius: 4px;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    padding: 0;
     opacity: 0;
+    transition: opacity 0.15s ease;
 }
 
 .dashboard-option:hover .dashboard-delete-btn {
@@ -447,29 +610,16 @@
 }
 
 .dashboard-delete-btn:hover {
-    background: rgba(239, 68, 68, 0.2);
-    color: #ef4444;
+    opacity: 0.7;
 }
 
-.dashboard-option:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.2);
-}
+
 
 .dashboard-option.active {
     background: rgba(8, 155, 223, 0.2);
     border-color: #089BDF;
 }
 
-.new-dashboard-option {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    margin-bottom: 4px;
-}
-
-.new-dashboard-option .dashboard-name-text {
-    color: #089BDF;
-    font-weight: 600;
-}
 
 /* RichText Widget Styles */
 .richtext-widget {
@@ -491,7 +641,6 @@
     height: 100%;
     overflow-y: auto;
     box-sizing: border-box;
-    padding: 16px;
 }
 
 .richtext-container {

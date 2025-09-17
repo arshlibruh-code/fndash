@@ -12,49 +12,69 @@ export class DevWidget extends WidgetCore {
 
     getDevContent() {
         return `
-            <div style="padding: 20px; color: #fff; font-family: Arial, sans-serif;">
-                <h3 style="color: #089BDF; margin-bottom: 12px; font-size: 16px; font-weight: 600;">Getting Started</h3>
-                <p style="margin-bottom: 8px;"><kbd>shift</kbd> + <kbd>?</kbd> to add widgets</p>
-                <p style="margin-bottom: 8px;"><kbd>shift</kbd> + <kbd>n</kbd> to create new dashboard</p>
-                <p style="margin-bottom: 8px;">Configure widgets using the gear icon</p>
-                <p style="margin-bottom: 8px;">Save your dashboard with the save button</p>
-                <p style="margin-bottom: 16px;">Switch between dashboards using the dropdown</p>
+            <div style="padding: 12px; color: #fff; font-family: Arial, sans-serif; line-height: 1.6;">
+                <h2 style="color: #fff; margin-bottom: 20px; font-size: 20px; font-weight: 400;">Quick Start</h2>
                 
-                <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;">
-                    <div style="display: flex; align-items: center; gap: 6px; padding: 4px 8px; background: transparent; border-radius: 4px; font-size: 12px;">
-                        <kbd>shift</kbd>
-                        <kbd>g</kbd>
-                        <span>Toggle Grid</span>
+                <p style="margin: 0 0 16px 0; font-size: 14px; color: rgba(255,255,255,0.9); line-height: 1.5; font-weight: 400;">
+                    fndash is a universal dashboard builder that lets you create custom dashboards with interactive widgets and real-time data visualization. Build, customize, and share professional dashboards without any coding required.
+                </p>
+                <p style="margin: 0 0 24px 0; font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.4; font-weight: 400;">
+                    <i data-lucide="move" style="width: 14px; height: 14px; display: inline-block; vertical-align: middle; margin-right: 4px;"></i>Drag and drop widgets, configure them with the <i data-lucide="settings" style="width: 14px; height: 14px; display: inline-block; vertical-align: middle; margin: 0 4px;"></i> gear icon, <i data-lucide="copy" style="width: 14px; height: 14px; display: inline-block; vertical-align: middle; margin: 0 4px;"></i> duplicate, <i data-lucide="trash-2" style="width: 14px; height: 14px; display: inline-block; vertical-align: middle; margin: 0 4px;"></i> delete, and save your layouts <i data-lucide="save" style="width: 14px; height: 14px; display: inline-block; vertical-align: middle; margin: 0 4px;"></i>(in bottom toolbar). Switch between edit and view modes, create multiple dashboards, and use keyboard shortcuts for efficient workflow.
+                </p>
+                
+                <div style="display: flex; gap: 32px; margin-bottom: 24px;">
+                    <div style="flex: 1;">
+                        <h4 style="color: #fff; margin-bottom: 12px; font-size: 14px; font-weight: 400;">Essential</h4>
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <kbd>shift</kbd> <kbd>G</kbd>
+                                <span style="font-size: 14px; font-weight: 400;">Toggle Edit/View Mode</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <kbd>shift</kbd> <kbd>?</kbd>
+                                <span style="font-size: 14px; font-weight: 400;">Add Widgets</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <kbd>shift</kbd> <kbd>N</kbd>
+                                <span style="font-size: 14px; font-weight: 400;">Create New Dashboard</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <kbd>shift</kbd> <kbd>P</kbd>
+                                <span style="font-size: 14px; font-weight: 400;">Open Dashboard Menu</span>
+                            </div>
+                        </div>
                     </div>
-                    <div style="display: flex; align-items: center; gap: 6px; padding: 4px 8px; background: transparent; border-radius: 4px; font-size: 12px;">
-                        <kbd>shift</kbd>
-                        <kbd>?</kbd>
-                        <span>Add Widget Menu</span>
+
+                    <div style="flex: 1;">
+                        <h4 style="color: #fff; margin-bottom: 12px; font-size: 14px; font-weight: 400;">Navigation</h4>
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <kbd>esc</kbd>
+                                <span style="font-size: 14px; font-weight: 400;">Deselect Widgets</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <kbd>↑</kbd> <kbd>↓</kbd>
+                                <span style="font-size: 14px; font-weight: 400;">Navigate Widget Menu</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <kbd>enter</kbd>
+                                <span style="font-size: 14px; font-weight: 400;">Select Widget</span>
+                            </div>
+                        </div>
                     </div>
-                    <div style="display: flex; align-items: center; gap: 6px; padding: 4px 8px; background: transparent; border-radius: 4px; font-size: 12px;">
-                        <kbd>↑</kbd>
-                        <kbd>↓</kbd>
-                        <span>Navigate Menu</span>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 6px; padding: 4px 8px; background: transparent; border-radius: 4px; font-size: 12px;">
-                        <kbd>enter</kbd>
-                        <span>Select Widget</span>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 6px; padding: 4px 8px; background: transparent; border-radius: 4px; font-size: 12px;">
-                        <kbd>esc</kbd>
-                        <span>Close/Deselect</span>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 6px; padding: 4px 8px; background: transparent; border-radius: 4px; font-size: 12px;">
-                        <kbd>cmd</kbd>
-                        <kbd>shift</kbd>
-                        <kbd>←→</kbd>
-                        <span>Adjust Columns</span>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 6px; padding: 4px 8px; background: transparent; border-radius: 4px; font-size: 12px;">
-                        <kbd>cmd</kbd>
-                        <kbd>shift</kbd>
-                        <kbd>↑↓</kbd>
-                        <span>Adjust Rows</span>
+
+                    <div style="flex: 1;">
+                        <h4 style="color: #fff; margin-bottom: 12px; font-size: 14px; font-weight: 400;">Layout</h4>
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <kbd>cmd</kbd> <kbd>shift</kbd> <kbd>←</kbd> <kbd>→</kbd>
+                                <span style="font-size: 14px; font-weight: 400;">Adjust Columns</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <kbd>cmd</kbd> <kbd>shift</kbd> <kbd>↑</kbd> <kbd>↓</kbd>
+                                <span style="font-size: 14px; font-weight: 400;">Adjust Rows</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -68,6 +88,11 @@ export class DevWidget extends WidgetCore {
         container.className = 'dev-container';
         container.innerHTML = this.content;
         element.appendChild(container);
+        
+        // Initialize Lucide icons for the gear icon
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
         
         // Set initial visibility based on mode
         this.updateVisibility();
