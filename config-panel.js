@@ -86,6 +86,13 @@ class ConfigPanel {
             this.updateConfigPanelContent(widget);
         }
     }
+    
+    closeConfigPanel() {
+        const configPanel = document.getElementById('configPanel');
+        if (configPanel) {
+            configPanel.classList.remove('open');
+        }
+    }
 }
 
 export { ConfigPanel };

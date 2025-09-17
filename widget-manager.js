@@ -74,7 +74,7 @@ class WidgetManager {
         // Initialize Lucide icons for the new widget
         lucide.createIcons();
         
-        return widgetElement;
+        return uniqueId;
     }
     
     addNewWidget(type) {

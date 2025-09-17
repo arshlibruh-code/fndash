@@ -5,8 +5,8 @@ import { WidgetCore } from './WidgetCore.js';
  * Only visible in edit mode, hidden in view mode
  */
 export class DevWidget extends WidgetCore {
-    constructor(id, config = {}) {
-        super(id, 'dev', config);
+    constructor(config = {}) {
+        super('dev', config);
         this.content = this.getDevContent();
     }
 
@@ -100,7 +100,7 @@ export class DevWidget extends WidgetCore {
                     </div>
                     <div class="info-item">
                         <span class="info-label">Type:</span>
-                        <span class="info-value">${this.type}</span>
+                        <span class="info-value">${this.getDisplayName()}</span>
                     </div>
                     <div class="info-item">
                         <span class="info-label">Position:</span>

@@ -178,7 +178,7 @@
     right: -400px;
     width: 400px;
     height: 100vh;
-    background: rgba(34, 59, 104, 0.95);
+    background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     border-left: 1px solid rgba(255, 255, 255, 0.2);
     z-index: 1000;
@@ -619,6 +619,59 @@
 
 .config-actions .config-btn:active {
     background: rgba(8, 155, 223, 0.2);
+}
+
+/* Chart Options Grid Styles */
+.chart-options-grid {
+    margin-top: 12px;
+}
+
+.chart-options-category {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.chart-option {
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    color: #fff;
+    font-size: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.chart-option:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.chart-option.enabled {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.chart-option.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.chart-option.disabled:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.chart-option.selected {
+    background: rgba(8, 155, 223, 0.3);
+    border-color: #089BDF;
+    box-shadow: 0 0 0 2px rgba(8, 155, 223, 0.2);
 }
 
 /* Mode-specific overrides */

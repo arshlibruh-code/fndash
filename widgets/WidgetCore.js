@@ -78,6 +78,20 @@ export class WidgetCore {
         // Override in specific widget classes
         return '';
     }
+    
+    getDisplayName() {
+        // Widget type to display name mapping
+        const displayNames = {
+            'map': 'Map Widget',
+            'chart': 'Chart Widget',
+            'sunburst': 'Sunburst Widget',
+            'custom': 'Custom Widget',
+            'richtext': 'Rich Text Widget',
+            'dev': 'Dev Widget'
+        };
+        
+        return displayNames[this.type] || `${this.type.charAt(0).toUpperCase() + this.type.slice(1)} Widget`;
+    }
 }
 
 // Widget type definitions

@@ -342,8 +342,12 @@ class DashboardManager {
                 }, widgetData.id);
                 
                 if (widget) {
-                    // Position the widget
-                    this.gridTest.positionWidget(widget, widgetData.startCell, widgetData.endCell);
+                    // Get the actual widget element
+                    const widgetElement = this.gridTest.widgetsOverlay.querySelector(`#${widget}`);
+                    if (widgetElement) {
+                        // Position the widget
+                        this.gridTest.positionWidget(widgetElement, widgetData.startCell, widgetData.endCell);
+                    }
                 }
             }
         });
@@ -511,18 +515,11 @@ class GridTest {
     setupAddWidgetControls() {
         const addWidgetBtn = document.getElementById('addWidgetBtn');
         const widgetMenuOverlay = document.getElementById('widgetMenuOverlay');
-        const closeWidgetMenu = document.getElementById('closeWidgetMenu');
         const widgetOptions = document.querySelectorAll('.widget-option');
         
         if (addWidgetBtn) {
             addWidgetBtn.addEventListener('click', () => {
                 this.openWidgetMenu();
-            });
-        }
-        
-        if (closeWidgetMenu) {
-            closeWidgetMenu.addEventListener('click', () => {
-                this.closeWidgetMenu();
             });
         }
         

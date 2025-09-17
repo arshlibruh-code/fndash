@@ -122,7 +122,7 @@ export class CustomWidget extends WidgetCore {
                         </div>
                         <div class="info-item">
                             <span class="info-label">Type:</span>
-                            <span class="info-value">${this.type}</span>
+                            <span class="info-value">${this.getDisplayName()}</span>
                         </div>
                         <div class="info-item">
                             <span class="info-label">Position:</span>
